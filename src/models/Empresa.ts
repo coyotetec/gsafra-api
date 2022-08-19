@@ -24,6 +24,7 @@ class Empresa extends Model<
   InferCreationAttributes<Empresa>
 > {
   declare id: CreationOptional<number>;
+  declare id_cliente_empresa: number;
   declare nome: string;
   declare senha: string;
   declare situacao: CreationOptional<number>;
@@ -34,6 +35,10 @@ class Empresa extends Model<
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
+      },
+      id_cliente_empresa: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
       },
       nome: {
