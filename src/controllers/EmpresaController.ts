@@ -10,7 +10,7 @@ export default {
   },
 
   async store(request: Request, response: Response) {
-    const { nome, senha } = request.body;
+    const { nome, senha, id_cliente_empresa } = request.body;
     const existingEmpresa = await Empresa.findOne({
       where: { nome },
     });
@@ -22,7 +22,9 @@ export default {
     }
 
     const empresa = await Empresa.create({
-      nome, senha: await securePassword(senha),
+      nome,
+      senha: await securePassword(senha),
+      id_cliente_empresa,
     });
 
     return response.status(201).json(empresa);
