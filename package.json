@@ -6,7 +6,8 @@
   "author": "Iran Adryan",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./src/main.ts"
+    "dev": "nodemon ./src/index.ts",
+    "start": "node ./src/index.ts"
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.3",
