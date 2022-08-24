@@ -38,7 +38,7 @@ class Dispositivo extends Model<
       },
       status: {
         type: DataTypes.SMALLINT,
-        defaultValue: 1,
+        defaultValue: 0,
         allowNull: false,
       },
     }, {

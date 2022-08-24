@@ -25,6 +25,29 @@ export default {
     return response.json(dispositivos);
   },
 
+  async show(request: Request, response: Response) {
+    const { 'id-empresa': id_empresa } = request.headers;
+    const { id } = request.params;
+
+    if (!id_empresa) {
+      return response.status(400).json({ erro: 'Id da empresa obrigatório' });
+    }
+
+    const empresa = await Empresa.findByPk(Number(id_empresa));
+
+    if (!empresa) {
+      return response.status(400).json({ erro: 'Empresa não existe' });
+    }
+
+    const dispositivo = await Dispositivo.findByPk(Number(id));
+
+    if (!dispositivo) {
+      return response.status(400).json({ erro: 'Dispositivo não existe' });
+    }
+
+    return response.json(dispositivo);
+  },
+
   async store(request: Request, response: Response) {
     const { nome, informacoes } = request.body;
     const { 'id-empresa': id_empresa } = request.headers;

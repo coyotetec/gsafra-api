@@ -70,7 +70,7 @@ class Talhao extends Model<
 
     this.belongsToMany(Variedade, {
       through: TalhaoSafra,
-      foreignKey: 'id_safra',
+      foreignKey: 'id_talhao',
       as: 'variedades',
       uniqueKey: 'ciclo_talhao_variedade',
       onUpdate: 'CASCADE',

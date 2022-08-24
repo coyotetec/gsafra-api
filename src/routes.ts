@@ -24,6 +24,7 @@ routes.post('/empresas', empresaValidation, EmpresaController.store);
 routes.post('/empresas/login', EmpresaController.login);
 
 routes.get('/dispositivos', DispositivoController.index);
+routes.get('/dispositivos/:id', DispositivoController.show);
 routes.post('/dispositivos', dispositivoValidation, DispositivoController.store);
 
 routes.get('/usuarios', UsuarioController.index);

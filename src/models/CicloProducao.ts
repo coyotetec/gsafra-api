@@ -66,7 +66,7 @@ class CicloProducao extends Model<
       foreignKey: 'id_safra',
       as: 'talhoes',
       uniqueKey: 'ciclo_talhao_variedade',
-      onUpdate: 'CASCADE',
+      onUpdate: 'RESTRICT',
       onDelete: 'RESTRICT',
     });
 
@@ -75,7 +75,7 @@ class CicloProducao extends Model<
       foreignKey: 'id_safra',
       as: 'variedades',
       uniqueKey: 'ciclo_talhao_variedade',
-      onUpdate: 'CASCADE',
+      onUpdate: 'RESTRICT',
       onDelete: 'RESTRICT',
     });
 

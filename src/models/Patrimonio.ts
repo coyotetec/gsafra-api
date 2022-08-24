@@ -35,7 +35,6 @@ class Patrimonio extends Model<
       },
       codigo_patrimonio: {
         type: DataTypes.STRING(20),
-        unique: true,
       },
       descricao: {
         type: DataTypes.STRING(200),
