@@ -19,15 +19,26 @@ export default {
       return response.status(400).json({ erro: 'Empresa não existe' });
     }
 
-    const produtosAlmoxarifado = await ProdutoAlmoxarifado.findAll({
+    const produtosAlmoxarifadoByEmpresas = await Empresa.findAll({
       where: {
-        id_empresa: Number(id_empresa),
-        ...(data_atualizacao && {
-          data_atualizacao: {
-            [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
-          },
-        }),
+        id_cliente_empresa: empresa.id_cliente_empresa,
       },
+      include: {
+        association: 'produtos_almoxarifado',
+        where: {
+          ...(data_atualizacao && {
+            data_atualizacao: {
+              [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
+            },
+          }),
+        },
+      },
+    });
+
+    const produtosAlmoxarifado: any[] = [];
+
+    produtosAlmoxarifadoByEmpresas.forEach((produtosAlmoxarifadoByEmpresa: any) => {
+      produtosAlmoxarifado.push(...produtosAlmoxarifadoByEmpresa.produtos_almoxarifado);
     });
 
     return response.json(produtosAlmoxarifado);

@@ -19,15 +19,26 @@ export default {
       return response.status(400).json({ erro: 'Empresa não existe' });
     }
 
-    const patrimonios = await Patrimonio.findAll({
+    const patrimoniosByEmpresas = await Empresa.findAll({
       where: {
-        id_empresa: Number(id_empresa),
-        ...(data_atualizacao && {
-          data_atualizacao: {
-            [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
-          },
-        }),
+        id_cliente_empresa: empresa.id_cliente_empresa,
       },
+      include: {
+        association: 'patrimonios',
+        where: {
+          ...(data_atualizacao && {
+            data_atualizacao: {
+              [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
+            },
+          }),
+        },
+      },
+    });
+
+    const patrimonios: any[] = [];
+
+    patrimoniosByEmpresas.forEach((patrimoniosByEmpresa: any) => {
+      patrimonios.push(...patrimoniosByEmpresa.patrimonios);
     });
 
     return response.json(patrimonios);

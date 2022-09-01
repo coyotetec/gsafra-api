@@ -19,15 +19,26 @@ export default {
       return response.status(400).json({ erro: 'Empresa não existe' });
     }
 
-    const variedades = await Variedade.findAll({
+    const variedadesByEmpresas = await Empresa.findAll({
       where: {
-        id_empresa: Number(id_empresa),
-        ...(data_atualizacao && {
-          data_atualizacao: {
-            [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
-          },
-        }),
+        id_cliente_empresa: empresa.id_cliente_empresa,
       },
+      include: {
+        association: 'variedades',
+        where: {
+          ...(data_atualizacao && {
+            data_atualizacao: {
+              [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
+            },
+          }),
+        },
+      },
+    });
+
+    const variedades: any[] = [];
+
+    variedadesByEmpresas.forEach((variedadesByEmpresa: any) => {
+      variedades.push(...variedadesByEmpresa.variedades);
     });
 
     return response.json(variedades);

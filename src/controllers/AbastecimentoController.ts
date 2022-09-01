@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import Abastecimento from '../models/Abastecimento';
 import AbastecimentoCiclo from '../models/AbastecimentoCiclo';
 import AbastecimentoCicloTs from '../models/AbastecimentoCicloTs';
+import Empresa from '../models/Empresa';
 import { formatDateToSQL } from '../utils/formatDateToSQL';
 
 interface AbastecimentoRequestBody {
@@ -57,15 +58,32 @@ export default {
       return response.status(400).json({ erro: 'Id do dispositivo obrigatório' });
     }
 
-    const abastecimentos = await Abastecimento.findAll({
+    const empresa = await Empresa.findByPk(Number(id_empresa));
+
+    if (!empresa) {
+      return response.status(400).json({ erro: 'Empresa não existe' });
+    }
+
+    const abastecimentosByEmpresas = await Empresa.findAll({
       where: {
-        id_empresa: Number(id_empresa),
-        ...(data_atualizacao && {
-          data_atualizacao: {
-            [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
-          },
-        }),
+        id_cliente_empresa: empresa.id_cliente_empresa,
       },
+      include: {
+        association: 'abastecimentos',
+        where: {
+          ...(data_atualizacao && {
+            data_atualizacao: {
+              [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
+            },
+          }),
+        },
+      },
+    });
+
+    const abastecimentos: any[] = [];
+
+    abastecimentosByEmpresas.forEach((abastecimentosByEmpresa: any) => {
+      abastecimentos.push(...abastecimentosByEmpresa.abastecimentos);
     });
 
     return response.json(abastecimentos);

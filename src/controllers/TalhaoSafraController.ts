@@ -21,15 +21,26 @@ export default {
       return response.status(400).json({ erro: 'Empresa não existe' });
     }
 
-    const talhoesSafras = await TalhaoSafra.findAll({
+    const talhoesSafrasByEmpresas = await Empresa.findAll({
       where: {
-        id_empresa: Number(id_empresa),
-        ...(data_atualizacao && {
-          data_atualizacao: {
-            [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
-          },
-        }),
+        id_cliente_empresa: empresa.id_cliente_empresa,
       },
+      include: {
+        association: 'talhoes_safras',
+        where: {
+          ...(data_atualizacao && {
+            data_atualizacao: {
+              [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
+            },
+          }),
+        },
+      },
+    });
+
+    const talhoesSafras: any[] = [];
+
+    talhoesSafrasByEmpresas.forEach((talhoesSafrasByEmpresa: any) => {
+      talhoesSafras.push(...talhoesSafrasByEmpresa.talhoes_safras);
     });
 
     return response.json(talhoesSafras);
