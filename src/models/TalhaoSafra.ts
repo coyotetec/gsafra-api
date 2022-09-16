@@ -27,7 +27,7 @@ class TalhaoSafra extends Model<
   declare data_atualizacao: CreationOptional<string>;
   declare hectares: CreationOptional<number>;
   declare status: CreationOptional<number>;
-  declare situacao: CreationOptional<number>;
+  declare excluido: CreationOptional<number>;
 
   static initialize(sequelize: Sequelize) {
     this.init({
@@ -50,9 +50,9 @@ class TalhaoSafra extends Model<
         type: DataTypes.SMALLINT,
         defaultValue: 1,
       },
-      situacao: {
+      excluido: {
         type: DataTypes.SMALLINT,
-        defaultValue: 1,
+        defaultValue: 0,
         allowNull: false,
       },
     }, {

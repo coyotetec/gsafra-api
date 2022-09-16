@@ -40,7 +40,7 @@ export default {
       });
     }
 
-    if (empresa.situacao === 0) {
+    if (empresa.excluido === 1 || empresa.status === 0) {
       return response.status(400).json({
         erro: 'Empresa inativa',
       });

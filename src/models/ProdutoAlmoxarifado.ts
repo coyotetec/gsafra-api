@@ -19,8 +19,9 @@ class ProdutoAlmoxarifado extends Model<
   declare id_origem: CreationOptional<number>;
   declare nome: string;
   declare tipo: number;
+  declare status: CreationOptional<number>;
   declare data_atualizacao: CreationOptional<string>;
-  declare situacao: CreationOptional<number>;
+  declare excluido: CreationOptional<number>;
 
   static initialize(sequelize: Sequelize) {
     this.init({
@@ -41,12 +42,16 @@ class ProdutoAlmoxarifado extends Model<
         type: DataTypes.SMALLINT,
         allowNull: false,
       },
+      status: {
+        type: DataTypes.SMALLINT,
+        defaultValue: 1,
+      },
       data_atualizacao: {
         type: DataTypes.DATE,
       },
-      situacao: {
+      excluido: {
         type: DataTypes.SMALLINT,
-        defaultValue: 1,
+        defaultValue: 0,
         allowNull: false,
       },
     }, {

@@ -24,7 +24,7 @@ class CicloProducao extends Model<
   declare nome: string;
   declare status: CreationOptional<number>;
   declare data_atualizacao: CreationOptional<string>;
-  declare situacao: CreationOptional<number>;
+  declare excluido: CreationOptional<number>;
 
   static initialize(sequelize: Sequelize) {
     this.init({
@@ -48,9 +48,9 @@ class CicloProducao extends Model<
       data_atualizacao: {
         type: DataTypes.DATE,
       },
-      situacao: {
+      excluido: {
         type: DataTypes.SMALLINT,
-        defaultValue: 1,
+        defaultValue: 0,
         allowNull: false,
       },
     }, {

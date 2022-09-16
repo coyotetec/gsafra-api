@@ -22,7 +22,7 @@ class Talhao extends Model<
   declare descricao: string;
   declare status: CreationOptional<number>;
   declare data_atualizacao: CreationOptional<string>;
-  declare situacao: CreationOptional<number>;
+  declare excluido: CreationOptional<number>;
 
   static initialize(sequelize: Sequelize) {
     this.init({
@@ -46,9 +46,9 @@ class Talhao extends Model<
       data_atualizacao: {
         type: DataTypes.DATE,
       },
-      situacao: {
+      excluido: {
         type: DataTypes.SMALLINT,
-        defaultValue: 1,
+        defaultValue: 0,
         allowNull: false,
       },
     }, {
