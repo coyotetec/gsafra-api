@@ -45,7 +45,9 @@ export default {
   },
 
   async store(request: Request, response: Response) {
-    const { nome, tipo } = request.body;
+    const {
+      nome, tipo, id_unidade, dose_ha, periodo_carencia, classe_toxicologica, intervalo_reentrada,
+    } = request.body;
     const { 'id-empresa': id_empresa } = request.headers;
 
     if (!id_empresa) {
@@ -62,6 +64,11 @@ export default {
       id_empresa: Number(id_empresa),
       nome,
       tipo,
+      id_unidade,
+      dose_ha,
+      periodo_carencia,
+      classe_toxicologica,
+      intervalo_reentrada,
       data_atualizacao: formatDateToSQL(new Date()),
     });
 
