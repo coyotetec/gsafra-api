@@ -7,19 +7,22 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import Abastecimento from './Abastecimento';
 import AgriAtvInsumo from './AgriAtvInsumo';
+import Cultura from './Cultura';
 import Empresa from './Empresa';
+import PlanAtvInsumo from './PlanAtvInsumo';
+import ProdutoAlmoxarifado from './ProdutoAlmoxarifado';
 
-class Almoxarifado extends Model<
-  InferAttributes<Almoxarifado>,
-  InferCreationAttributes<Almoxarifado>
+class Unidade extends Model<
+  InferAttributes<Unidade>,
+  InferCreationAttributes<Unidade>
 > {
   declare id: CreationOptional<number>;
   declare id_empresa: ForeignKey<Empresa['id']>;
   declare id_origem: CreationOptional<number>;
   declare nome: string;
-  declare status: CreationOptional<number>;
+  declare sigla: string;
+  declare permitir_fracionar: CreationOptional<number>;
   declare data_atualizacao: CreationOptional<string>;
   declare excluido: CreationOptional<number>;
 
@@ -35,12 +38,15 @@ class Almoxarifado extends Model<
         type: DataTypes.INTEGER.UNSIGNED,
       },
       nome: {
-        type: DataTypes.STRING(200),
+        type: DataTypes.STRING(20),
         allowNull: false,
       },
-      status: {
+      sigla: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+      },
+      permitir_fracionar: {
         type: DataTypes.SMALLINT,
-        defaultValue: 1,
       },
       data_atualizacao: {
         type: DataTypes.DATE,
@@ -52,28 +58,44 @@ class Almoxarifado extends Model<
       },
     }, {
       sequelize,
-      modelName: 'Almoxarifado',
-      tableName: 'almoxarifado',
+      modelName: 'Unidade',
+      tableName: 'unidade',
     });
   }
 
   static associate() {
-    this.hasMany(Abastecimento, {
+    this.hasMany(Cultura, {
       sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
-      as: 'abastecimentos',
+      foreignKey: 'id_unidade',
+      as: 'culturas',
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
+    });
+
+    this.hasMany(PlanAtvInsumo, {
+      sourceKey: 'id',
+      foreignKey: 'id_unidade',
+      as: 'planejamentos_atividade_insumos',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
     });
 
     this.hasMany(AgriAtvInsumo, {
       sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
+      foreignKey: 'id_unidade',
       as: 'atividades_agricolas_insumos',
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
+    });
+
+    this.hasMany(ProdutoAlmoxarifado, {
+      sourceKey: 'id',
+      foreignKey: 'id_unidade',
+      as: 'produtos_almoxarifado',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
     });
   }
 }
 
-export default Almoxarifado;
+export default Unidade;

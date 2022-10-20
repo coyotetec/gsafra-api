@@ -7,19 +7,23 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import Abastecimento from './Abastecimento';
-import AgriAtvInsumo from './AgriAtvInsumo';
+import CicloProducao from './CicloProducao';
 import Empresa from './Empresa';
+import EstacaoFenologico from './EstacaoFenologico';
+import Unidade from './Unidade';
 
-class Almoxarifado extends Model<
-  InferAttributes<Almoxarifado>,
-  InferCreationAttributes<Almoxarifado>
+class Cultura extends Model<
+  InferAttributes<Cultura>,
+  InferCreationAttributes<Cultura>
 > {
   declare id: CreationOptional<number>;
   declare id_empresa: ForeignKey<Empresa['id']>;
   declare id_origem: CreationOptional<number>;
   declare nome: string;
-  declare status: CreationOptional<number>;
+  declare peso_saca: CreationOptional<number>;
+  declare id_unidade: ForeignKey<Unidade['id']>;
+  declare ncm: CreationOptional<string>;
+  declare cultura: CreationOptional<number>;
   declare data_atualizacao: CreationOptional<string>;
   declare excluido: CreationOptional<number>;
 
@@ -35,12 +39,17 @@ class Almoxarifado extends Model<
         type: DataTypes.INTEGER.UNSIGNED,
       },
       nome: {
-        type: DataTypes.STRING(200),
+        type: DataTypes.STRING(20),
         allowNull: false,
       },
-      status: {
+      peso_saca: {
+        type: DataTypes.DECIMAL(15, 3),
+      },
+      ncm: {
+        type: DataTypes.STRING(10),
+      },
+      cultura: {
         type: DataTypes.SMALLINT,
-        defaultValue: 1,
       },
       data_atualizacao: {
         type: DataTypes.DATE,
@@ -52,28 +61,28 @@ class Almoxarifado extends Model<
       },
     }, {
       sequelize,
-      modelName: 'Almoxarifado',
-      tableName: 'almoxarifado',
+      modelName: 'Cultura',
+      tableName: 'cultura',
     });
   }
 
   static associate() {
-    this.hasMany(Abastecimento, {
+    this.hasMany(CicloProducao, {
       sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
-      as: 'abastecimentos',
+      foreignKey: 'id_cultura',
+      as: 'safras',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
     });
 
-    this.hasMany(AgriAtvInsumo, {
+    this.hasMany(EstacaoFenologico, {
       sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
-      as: 'atividades_agricolas_insumos',
+      foreignKey: 'id_cultura',
+      as: 'estadios_fenologicos',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
     });
   }
 }
 
-export default Almoxarifado;
+export default Cultura;

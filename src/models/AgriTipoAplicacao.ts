@@ -7,19 +7,18 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import Abastecimento from './Abastecimento';
-import AgriAtvInsumo from './AgriAtvInsumo';
+import AgriAtv from './AgriAtv';
 import Empresa from './Empresa';
+import PlanAtv from './PlanAtv';
 
-class Almoxarifado extends Model<
-  InferAttributes<Almoxarifado>,
-  InferCreationAttributes<Almoxarifado>
+class AgriTipoAplicacao extends Model<
+  InferAttributes<AgriTipoAplicacao>,
+  InferCreationAttributes<AgriTipoAplicacao>
 > {
   declare id: CreationOptional<number>;
   declare id_empresa: ForeignKey<Empresa['id']>;
   declare id_origem: CreationOptional<number>;
   declare nome: string;
-  declare status: CreationOptional<number>;
   declare data_atualizacao: CreationOptional<string>;
   declare excluido: CreationOptional<number>;
 
@@ -35,12 +34,8 @@ class Almoxarifado extends Model<
         type: DataTypes.INTEGER.UNSIGNED,
       },
       nome: {
-        type: DataTypes.STRING(200),
+        type: DataTypes.STRING(50),
         allowNull: false,
-      },
-      status: {
-        type: DataTypes.SMALLINT,
-        defaultValue: 1,
       },
       data_atualizacao: {
         type: DataTypes.DATE,
@@ -52,28 +47,28 @@ class Almoxarifado extends Model<
       },
     }, {
       sequelize,
-      modelName: 'Almoxarifado',
-      tableName: 'almoxarifado',
+      modelName: 'Agri_Tipo_Aplicacao',
+      tableName: 'agri_tipo_aplicacao',
     });
   }
 
   static associate() {
-    this.hasMany(Abastecimento, {
+    this.hasMany(PlanAtv, {
       sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
-      as: 'abastecimentos',
+      foreignKey: 'id_agri_tipo_aplicacao',
+      as: 'planejamentos_atividade',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
     });
 
-    this.hasMany(AgriAtvInsumo, {
+    this.hasMany(AgriAtv, {
       sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
-      as: 'atividades_agricolas_insumos',
+      foreignKey: 'id_agri_tipo_aplicacao',
+      as: 'atividades_agricolas',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
     });
   }
 }
 
-export default Almoxarifado;
+export default AgriTipoAplicacao;

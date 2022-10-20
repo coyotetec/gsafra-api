@@ -9,8 +9,10 @@ import {
 } from 'sequelize';
 import AbastecimentoCiclo from './AbastecimentoCiclo';
 import AbastecimentoCicloTs from './AbastecimentoCicloTs';
+import AgriAtvTalhaoSafra from './AgriAtvTalhaoSafra';
 import CicloProducao from './CicloProducao';
 import Empresa from './Empresa';
+import PlanAtvTalhaoSafra from './PlanAtvTalhaoSafra';
 import Talhao from './Talhao';
 import Variedade from './Variedade';
 
@@ -68,6 +70,22 @@ class TalhaoSafra extends Model<
       uniqueKey: 'abastecimento_ciclo_talhao_safra',
       foreignKey: 'id_talhao_safra',
       as: 'abastecimento_ciclos',
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
+    });
+
+    this.hasMany(PlanAtvTalhaoSafra, {
+      sourceKey: 'id',
+      foreignKey: 'id_talhao_safra',
+      as: 'planejamentos_atividade_talhao_safra',
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
+    });
+
+    this.hasMany(AgriAtvTalhaoSafra, {
+      sourceKey: 'id',
+      foreignKey: 'id_talhao_safra',
+      as: 'atividades_agricolas_talhao_safra',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
     });

@@ -7,26 +7,18 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import Abastecimento from './Abastecimento';
-import AbastecimentoCiclo from './AbastecimentoCiclo';
 import AgriAtv from './AgriAtv';
-import Cultura from './Cultura';
 import Empresa from './Empresa';
 import PlanAtv from './PlanAtv';
-import Talhao from './Talhao';
-import TalhaoSafra from './TalhaoSafra';
-import Variedade from './Variedade';
 
-class CicloProducao extends Model<
-  InferAttributes<CicloProducao>,
-  InferCreationAttributes<CicloProducao>
+class TipoAtividade extends Model<
+  InferAttributes<TipoAtividade>,
+  InferCreationAttributes<TipoAtividade>
 > {
   declare id: CreationOptional<number>;
   declare id_empresa: ForeignKey<Empresa['id']>;
   declare id_origem: CreationOptional<number>;
   declare nome: string;
-  declare id_cultura: ForeignKey<Cultura['id']>;
-  declare status: CreationOptional<number>;
   declare data_atualizacao: CreationOptional<string>;
   declare excluido: CreationOptional<number>;
 
@@ -45,10 +37,6 @@ class CicloProducao extends Model<
         type: DataTypes.STRING(200),
         allowNull: false,
       },
-      status: {
-        type: DataTypes.SMALLINT,
-        defaultValue: 1,
-      },
       data_atualizacao: {
         type: DataTypes.DATE,
       },
@@ -59,42 +47,15 @@ class CicloProducao extends Model<
       },
     }, {
       sequelize,
-      modelName: 'Ciclo_Producao',
-      tableName: 'ciclo_producao',
+      modelName: 'Tipo_Atividade',
+      tableName: 'tipo_atividade',
     });
   }
 
   static associate() {
-    this.belongsToMany(Talhao, {
-      through: TalhaoSafra,
-      foreignKey: 'id_safra',
-      as: 'talhoes',
-      uniqueKey: 'ciclo_talhao_variedade',
-      onUpdate: 'RESTRICT',
-      onDelete: 'RESTRICT',
-    });
-
-    this.belongsToMany(Variedade, {
-      through: TalhaoSafra,
-      foreignKey: 'id_safra',
-      as: 'variedades',
-      uniqueKey: 'ciclo_talhao_variedade',
-      onUpdate: 'RESTRICT',
-      onDelete: 'RESTRICT',
-    });
-
-    this.belongsToMany(Abastecimento, {
-      through: AbastecimentoCiclo,
-      foreignKey: 'id_safra',
-      as: 'abastecimentos',
-      uniqueKey: 'abastecimento_ciclo',
-      onUpdate: 'CASCADE',
-      onDelete: 'RESTRICT',
-    });
-
     this.hasMany(PlanAtv, {
       sourceKey: 'id',
-      foreignKey: 'id_ciclo_producao',
+      foreignKey: 'id_tipo_atividade',
       as: 'planejamentos_atividade',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
@@ -102,7 +63,7 @@ class CicloProducao extends Model<
 
     this.hasMany(AgriAtv, {
       sourceKey: 'id',
-      foreignKey: 'id_ciclo_producao',
+      foreignKey: 'id_tipo_atividade',
       as: 'atividades_agricolas',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
@@ -110,4 +71,4 @@ class CicloProducao extends Model<
   }
 }
 
-export default CicloProducao;
+export default TipoAtividade;

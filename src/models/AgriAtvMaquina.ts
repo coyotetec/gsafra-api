@@ -7,19 +7,22 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import Abastecimento from './Abastecimento';
-import AgriAtvInsumo from './AgriAtvInsumo';
+import AgriAtv from './AgriAtv';
 import Empresa from './Empresa';
+import Patrimonio from './Patrimonio';
 
-class Almoxarifado extends Model<
-  InferAttributes<Almoxarifado>,
-  InferCreationAttributes<Almoxarifado>
+class AgriAtvMaquina extends Model<
+  InferAttributes<AgriAtvMaquina>,
+  InferCreationAttributes<AgriAtvMaquina>
 > {
   declare id: CreationOptional<number>;
   declare id_empresa: ForeignKey<Empresa['id']>;
   declare id_origem: CreationOptional<number>;
-  declare nome: string;
-  declare status: CreationOptional<number>;
+  declare id_agri_atv: ForeignKey<AgriAtv['id']>;
+  declare id_patrimonio: ForeignKey<Patrimonio['id']>;
+  declare hr_inicial: number;
+  declare hr_final: number;
+  declare horas: number;
   declare data_atualizacao: CreationOptional<string>;
   declare excluido: CreationOptional<number>;
 
@@ -34,13 +37,15 @@ class Almoxarifado extends Model<
       id_origem: {
         type: DataTypes.INTEGER.UNSIGNED,
       },
-      nome: {
-        type: DataTypes.STRING(200),
-        allowNull: false,
+      hr_inicial: {
+        type: DataTypes.DECIMAL(15, 2),
       },
-      status: {
-        type: DataTypes.SMALLINT,
-        defaultValue: 1,
+      hr_final: {
+        type: DataTypes.DECIMAL(15, 2),
+      },
+      horas: {
+        type: DataTypes.DECIMAL(15, 2),
+        allowNull: false,
       },
       data_atualizacao: {
         type: DataTypes.DATE,
@@ -52,28 +57,12 @@ class Almoxarifado extends Model<
       },
     }, {
       sequelize,
-      modelName: 'Almoxarifado',
-      tableName: 'almoxarifado',
+      modelName: 'Agri_Atv_Maquina',
+      tableName: 'agri_atv_maquina',
     });
   }
 
-  static associate() {
-    this.hasMany(Abastecimento, {
-      sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
-      as: 'abastecimentos',
-      onUpdate: 'CASCADE',
-      onDelete: 'RESTRICT',
-    });
-
-    this.hasMany(AgriAtvInsumo, {
-      sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
-      as: 'atividades_agricolas_insumos',
-      onUpdate: 'CASCADE',
-      onDelete: 'RESTRICT',
-    });
-  }
+  static associate() { }
 }
 
-export default Almoxarifado;
+export default AgriAtvMaquina;

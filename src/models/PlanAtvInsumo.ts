@@ -7,19 +7,23 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import Abastecimento from './Abastecimento';
 import AgriAtvInsumo from './AgriAtvInsumo';
 import Empresa from './Empresa';
+import PlanAtv from './PlanAtv';
+import ProdutoAlmoxarifado from './ProdutoAlmoxarifado';
+import Unidade from './Unidade';
 
-class Almoxarifado extends Model<
-  InferAttributes<Almoxarifado>,
-  InferCreationAttributes<Almoxarifado>
+class PlanAtvInsumo extends Model<
+  InferAttributes<PlanAtvInsumo>,
+  InferCreationAttributes<PlanAtvInsumo>
 > {
   declare id: CreationOptional<number>;
   declare id_empresa: ForeignKey<Empresa['id']>;
   declare id_origem: CreationOptional<number>;
-  declare nome: string;
-  declare status: CreationOptional<number>;
+  declare id_plan_atv: ForeignKey<PlanAtv['id']>;
+  declare id_produto_almoxarifado: ForeignKey<ProdutoAlmoxarifado['id']>;
+  declare id_unidade: ForeignKey<Unidade['id']>;
+  declare qtde: number;
   declare data_atualizacao: CreationOptional<string>;
   declare excluido: CreationOptional<number>;
 
@@ -34,13 +38,9 @@ class Almoxarifado extends Model<
       id_origem: {
         type: DataTypes.INTEGER.UNSIGNED,
       },
-      nome: {
-        type: DataTypes.STRING(200),
+      qtde: {
+        type: DataTypes.DECIMAL(15, 3),
         allowNull: false,
-      },
-      status: {
-        type: DataTypes.SMALLINT,
-        defaultValue: 1,
       },
       data_atualizacao: {
         type: DataTypes.DATE,
@@ -52,23 +52,15 @@ class Almoxarifado extends Model<
       },
     }, {
       sequelize,
-      modelName: 'Almoxarifado',
-      tableName: 'almoxarifado',
+      modelName: 'Plan_Atv_Insumo',
+      tableName: 'plan_atv_insumo',
     });
   }
 
   static associate() {
-    this.hasMany(Abastecimento, {
-      sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
-      as: 'abastecimentos',
-      onUpdate: 'CASCADE',
-      onDelete: 'RESTRICT',
-    });
-
     this.hasMany(AgriAtvInsumo, {
       sourceKey: 'id',
-      foreignKey: 'id_almoxarifado',
+      foreignKey: 'id_plan_atv_insumo',
       as: 'atividades_agricolas_insumos',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
@@ -76,4 +68,4 @@ class Almoxarifado extends Model<
   }
 }
 
-export default Almoxarifado;
+export default PlanAtvInsumo;

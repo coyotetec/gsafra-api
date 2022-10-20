@@ -8,7 +8,9 @@ import {
   Sequelize,
 } from 'sequelize';
 import Abastecimento from './Abastecimento';
+import AgriAtvMaquina from './AgriAtvMaquina';
 import Empresa from './Empresa';
+import PlanAtvMaquina from './PlanAtvMaquina';
 
 class Patrimonio extends Model<
   InferAttributes<Patrimonio>,
@@ -65,6 +67,22 @@ class Patrimonio extends Model<
       sourceKey: 'id',
       foreignKey: 'id_patrimonio',
       as: 'abastecimentos',
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
+    });
+
+    this.hasMany(PlanAtvMaquina, {
+      sourceKey: 'id',
+      foreignKey: 'id_patrimonio',
+      as: 'planejamentos_atividade_maquinas',
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
+    });
+
+    this.hasMany(AgriAtvMaquina, {
+      sourceKey: 'id',
+      foreignKey: 'id_patrimonio',
+      as: 'atividades_agricolas_maquinas',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
     });
