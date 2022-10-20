@@ -45,7 +45,7 @@ export default {
   },
 
   async store(request: Request, response: Response) {
-    const { nome } = request.body;
+    const { nome, id_cultura } = request.body;
     const { 'id-empresa': id_empresa } = request.headers;
 
     if (!id_empresa) {
@@ -60,6 +60,7 @@ export default {
 
     const safra = await CicloProducao.create({
       id_empresa: Number(id_empresa),
+      id_cultura,
       nome,
       data_atualizacao: formatDateToSQL(new Date()),
     });
