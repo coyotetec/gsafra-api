@@ -27,6 +27,10 @@ import PlanAtvController from './controllers/PlanAtvController';
 import PlanAtvInsumoController from './controllers/PlanAtvInsumoController';
 import PlanAtvMaquinaController from './controllers/PlanAtvMaquinaController';
 import PlanAtvTalhaoSafraController from './controllers/PlanAtvTalhaoSafraController';
+import AgriAtvController from './controllers/AgriAtvController';
+import AgriAtvInsumoController from './controllers/AgriAtvInsumoController';
+import AgriAtvMaquinaController from './controllers/AgriAtvMaquinaController';
+import AgriAtvTalhaoSafraController from './controllers/AgriAtvTalhaoSafraController';
 
 const routes = express.Router();
 
@@ -96,5 +100,12 @@ routes.post('/planejamento-atividade', PlanAtvController.store);
 routes.get('/planejamento-atividade-insumos', PlanAtvInsumoController.index);
 routes.get('/planejamento-atividade-maquinas', PlanAtvMaquinaController.index);
 routes.get('/planejamento-atividade-talhoes-safras', PlanAtvTalhaoSafraController.index);
+
+routes.get('/atividades-agricolas', AgriAtvController.index);
+routes.post('/atividades-agricolas', AgriAtvController.store);
+
+routes.get('/atividades-agricolas-insumos', AgriAtvInsumoController.index);
+routes.get('/atividades-agricolas-maquinas', AgriAtvMaquinaController.index);
+routes.get('/atividades-agricolas-talhoes-safras', AgriAtvTalhaoSafraController.index);
 
 export { routes };
