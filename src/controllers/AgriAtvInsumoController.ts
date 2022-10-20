@@ -18,12 +18,12 @@ export default {
       return response.status(400).json({ erro: 'Empresa não existe' });
     }
 
-    const planejamentosAtividadeMaquinasByEmpresas = await Empresa.findAll({
+    const atividadesAgricolasInsumosByEmpresas = await Empresa.findAll({
       where: {
         id_cliente_empresa: empresa.id_cliente_empresa,
       },
       include: {
-        association: 'planejamentos_atividade_maquinas',
+        association: 'atividades_agricolas_insumos',
         where: {
           ...(data_atualizacao && {
             data_atualizacao: {
@@ -34,16 +34,16 @@ export default {
       },
     });
 
-    const planejamentosAtividadeMaquinas: any[] = [];
+    const atividadesAgricolasInsumos: any[] = [];
 
-    planejamentosAtividadeMaquinasByEmpresas.forEach(
-      (planejamentosAtividadeMaquinasByEmpresa: any) => {
-        planejamentosAtividadeMaquinas.push(
-          ...planejamentosAtividadeMaquinasByEmpresa.planejamentos_atividade_maquinas,
+    atividadesAgricolasInsumosByEmpresas.forEach(
+      (atividadesAgricolasInsumosByEmpresa: any) => {
+        atividadesAgricolasInsumos.push(
+          ...atividadesAgricolasInsumosByEmpresa.atividades_agricolas_insumos,
         );
       },
     );
 
-    return response.json(planejamentosAtividadeMaquinas);
+    return response.json(atividadesAgricolasInsumos);
   },
 };
