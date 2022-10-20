@@ -1,4 +1,9 @@
 import express from 'express';
+
+import { dispositivoValidation } from './validators/DispositivoValidator';
+import { empresaValidation } from './validators/EmpresaValidator';
+import { usuarioValidation } from './validators/UsuarioValidator';
+
 import AlmoxarifadoController from './controllers/AlmoxarifadoController';
 import DispositivoController from './controllers/DispositivoController';
 import EmpresaController from './controllers/EmpresaController';
@@ -9,10 +14,6 @@ import TalhaoController from './controllers/TalhaoController';
 import TalhaoSafraController from './controllers/TalhaoSafraController';
 import UsuarioController from './controllers/UsuarioController';
 import AbastecimentoController from './controllers/AbastecimentoController';
-
-import { dispositivoValidation } from './validators/DispositivoValidator';
-import { empresaValidation } from './validators/EmpresaValidator';
-import { usuarioValidation } from './validators/UsuarioValidator';
 import AbastecimentoCicloController from './controllers/AbastecimentoCicloController';
 import AbastecimentoCicloTsController from './controllers/AbastecimentoCicloTsController';
 import VariedadeController from './controllers/VariedadeController';
@@ -22,6 +23,10 @@ import AgriTipoAplicacaoController from './controllers/AgriTipoAplicacaoControll
 import UnidadeController from './controllers/UnidadeController';
 import CulturaController from './controllers/CulturaController';
 import EstacaoFenologicoController from './controllers/EstacaoFenologicoController';
+import PlanAtvController from './controllers/PlanAtvController';
+import PlanAtvInsumoController from './controllers/PlanAtvInsumoController';
+import PlanAtvMaquinaController from './controllers/PlanAtvMaquinaController';
+import PlanAtvTalhaoSafraController from './controllers/PlanAtvTalhaoSafraController';
 
 const routes = express.Router();
 
@@ -84,5 +89,12 @@ routes.post('/culturas', CulturaController.store);
 
 routes.get('/estadios-fenologicos', EstacaoFenologicoController.index);
 routes.post('/estadios-fenologicos', EstacaoFenologicoController.store);
+
+routes.get('/planejamento-atividade', PlanAtvController.index);
+routes.post('/planejamento-atividade', PlanAtvController.store);
+
+routes.get('/planejamento-atividade-insumos', PlanAtvInsumoController.index);
+routes.get('/planejamento-atividade-maquinas', PlanAtvMaquinaController.index);
+routes.get('/planejamento-atividade-talhoes-safras', PlanAtvTalhaoSafraController.index);
 
 export { routes };
