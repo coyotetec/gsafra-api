@@ -16,6 +16,12 @@ import { usuarioValidation } from './validators/UsuarioValidator';
 import AbastecimentoCicloController from './controllers/AbastecimentoCicloController';
 import AbastecimentoCicloTsController from './controllers/AbastecimentoCicloTsController';
 import VariedadeController from './controllers/VariedadeController';
+import TipoAtividadeController from './controllers/TipoAtividadeController';
+import AgriAplicacaoFaseController from './controllers/AgriAplicacaoFaseController';
+import AgriTipoAplicacaoController from './controllers/AgriTipoAplicacaoController';
+import UnidadeController from './controllers/UnidadeController';
+import CulturaController from './controllers/CulturaController';
+import EstacaoFenologicoController from './controllers/EstacaoFenologicoController';
 
 const routes = express.Router();
 
@@ -53,12 +59,30 @@ routes.post('/talhoes/:id/safras', TalhaoSafraController.addSafraToTalhao);
 routes.get('/variedades', VariedadeController.index);
 routes.post('/variedades', VariedadeController.store);
 
+routes.get('/talhoes-safras', TalhaoSafraController.index);
+
 routes.get('/abastecimentos', AbastecimentoController.index);
 routes.post('/abastecimentos', AbastecimentoController.store);
 
-routes.get('/talhoes-safras', TalhaoSafraController.index);
-
 routes.get('/abastecimentos-ciclos', AbastecimentoCicloController.index);
 routes.get('/abastecimentos-ciclos-ts', AbastecimentoCicloTsController.index);
+
+routes.get('/tipos-atividades', TipoAtividadeController.index);
+routes.post('/tipos-atividades', TipoAtividadeController.store);
+
+routes.get('/fases-aplicacao', AgriAplicacaoFaseController.index);
+routes.post('/fases-aplicacao', AgriAplicacaoFaseController.store);
+
+routes.get('/tipos-aplicacao', AgriTipoAplicacaoController.index);
+routes.post('/tipos-aplicacao', AgriTipoAplicacaoController.store);
+
+routes.get('/unidades-medida', UnidadeController.index);
+routes.post('/unidades-medida', UnidadeController.store);
+
+routes.get('/culturas', CulturaController.index);
+routes.post('/culturas', CulturaController.store);
+
+routes.get('/estadios-fenologicos', EstacaoFenologicoController.index);
+routes.post('/estadios-fenologicos', EstacaoFenologicoController.store);
 
 export { routes };
