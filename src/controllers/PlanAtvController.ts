@@ -24,8 +24,8 @@ interface PlanejamentoAtividadeRequestBody {
   id_agri_tipo_aplicacao?: number;
   id_agri_aplicacao_fase?: number;
   vazao_ha?: number;
-  motivo_aplicacao: string;
-  data_conclusao_atividade: string;
+  motivo_aplicacao?: string;
+  data_conclusao_atividade?: string;
   insumos: {
     id_produto_almoxarifado: number;
     id_unidade: number;
@@ -63,8 +63,8 @@ interface PlanejamentoAtividadePayload {
   id_agri_tipo_aplicacao?: number;
   id_agri_aplicacao_fase?: number;
   vazao_ha?: number;
-  motivo_aplicacao: string;
-  data_conclusao_atividade: string;
+  motivo_aplicacao?: string;
+  data_conclusao_atividade?: string;
   data_atualizacao: string;
 }
 
