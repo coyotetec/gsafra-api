@@ -8,6 +8,7 @@ import {
   Sequelize,
 } from 'sequelize';
 import Abastecimento from './Abastecimento';
+import AgriAtv from './AgriAtv';
 import Empresa from './Empresa';
 
 class Dispositivo extends Model<
@@ -53,6 +54,14 @@ class Dispositivo extends Model<
       sourceKey: 'id',
       foreignKey: 'id_dispositivo',
       as: 'abastecimentos',
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
+    });
+
+    this.hasMany(AgriAtv, {
+      sourceKey: 'id',
+      foreignKey: 'id_dispositivo',
+      as: 'atividades',
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
     });

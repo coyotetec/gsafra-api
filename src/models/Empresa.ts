@@ -43,6 +43,7 @@ class Empresa extends Model<
   declare senha: string;
   declare status: CreationOptional<number>;
   declare excluido: CreationOptional<number>;
+  declare id_origem: CreationOptional<number>;
 
   static initialize(sequelize: Sequelize) {
     this.init({
@@ -55,6 +56,9 @@ class Empresa extends Model<
       id_cliente_empresa: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
+      },
+      id_origem: {
+        type: DataTypes.INTEGER.UNSIGNED,
       },
       nome: {
         type: DataTypes.STRING(100),

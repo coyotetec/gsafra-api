@@ -83,7 +83,9 @@ PlanAtvInsumo.associate();
 AgriAtv.associate();
 
 sequelize.sync({
-  alter: true,
+  alter: {
+    drop: false,
+  },
 }).then(() => console.log('✅ Database synchronized successfully'));
 
 export default sequelize;
