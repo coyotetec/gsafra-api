@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
-import CicloProducao from '../models/CicloProducao';
+import Cultura from '../models/Cultura';
 import Empresa from '../models/Empresa';
 import { formatDateToSQL } from '../utils/formatDateToSQL';
 
@@ -19,12 +19,12 @@ export default {
       return response.status(400).json({ erro: 'Empresa não existe' });
     }
 
-    const safrasByEmpresas = await Empresa.findAll({
+    const culturasByEmpresas = await Empresa.findAll({
       where: {
         id_cliente_empresa: empresa.id_cliente_empresa,
       },
       include: {
-        association: 'safras',
+        association: 'culturas',
         where: {
           ...(data_atualizacao && {
             data_atualizacao: {
@@ -35,17 +35,19 @@ export default {
       },
     });
 
-    const safras: any[] = [];
+    const culturas: any[] = [];
 
-    safrasByEmpresas.forEach((safrasByEmpresa: any) => {
-      safras.push(...safrasByEmpresa.safras);
+    culturasByEmpresas.forEach((culturasByEmpresa: any) => {
+      culturas.push(...culturasByEmpresa.culturas);
     });
 
-    return response.json(safras);
+    return response.json(culturas);
   },
 
   async store(request: Request, response: Response) {
-    const { nome, id_cultura } = request.body;
+    const {
+      nome, peso_saca, id_unidade, ncm, cultura: isCultura,
+    } = request.body;
     const { 'id-empresa': id_empresa } = request.headers;
 
     if (!id_empresa) {
@@ -58,13 +60,16 @@ export default {
       return response.status(400).json({ erro: 'Empresa não existe' });
     }
 
-    const safra = await CicloProducao.create({
+    const cultura = await Cultura.create({
       id_empresa: Number(id_empresa),
-      id_cultura,
       nome,
+      peso_saca,
+      id_unidade,
+      ncm,
+      cultura: isCultura,
       data_atualizacao: formatDateToSQL(new Date()),
     });
 
-    return response.status(201).json(safra);
+    return response.status(201).json(cultura);
   },
 };

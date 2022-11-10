@@ -13,10 +13,12 @@ import AgriAtvMaquina from './AgriAtvMaquina';
 import AgriAtvTalhaoSafra from './AgriAtvTalhaoSafra';
 import AgriTipoAplicacao from './AgriTipoAplicacao';
 import CicloProducao from './CicloProducao';
+import Dispositivo from './Dispositivo';
 import Empresa from './Empresa';
 import EstacaoFenologico from './EstacaoFenologico';
 import PlanAtv from './PlanAtv';
 import TipoAtividade from './TipoAtividade';
+import Usuario from './Usuario';
 
 class AgriAtv extends Model<
   InferAttributes<AgriAtv>,
@@ -24,6 +26,8 @@ class AgriAtv extends Model<
 > {
   declare id: CreationOptional<number>;
   declare id_empresa: ForeignKey<Empresa['id']>;
+  declare id_usuario: ForeignKey<Usuario['id']>;
+  declare id_dispositivo: ForeignKey<Dispositivo['id']>;
   declare id_origem: CreationOptional<number>;
   declare id_plan_atv: ForeignKey<PlanAtv['id']>;
   declare id_agri_fase: number;

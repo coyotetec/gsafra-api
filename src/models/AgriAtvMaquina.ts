@@ -20,8 +20,8 @@ class AgriAtvMaquina extends Model<
   declare id_origem: CreationOptional<number>;
   declare id_agri_atv: ForeignKey<AgriAtv['id']>;
   declare id_patrimonio: ForeignKey<Patrimonio['id']>;
-  declare hr_inicial: number;
-  declare hr_final: number;
+  declare hr_inicial: CreationOptional<number>;
+  declare hr_final: CreationOptional<number>;
   declare horas: number;
   declare data_atualizacao: CreationOptional<string>;
   declare excluido: CreationOptional<number>;

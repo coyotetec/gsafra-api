@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
-import CicloProducao from '../models/CicloProducao';
 import Empresa from '../models/Empresa';
+import Unidade from '../models/Unidade';
 import { formatDateToSQL } from '../utils/formatDateToSQL';
 
 export default {
@@ -19,12 +19,12 @@ export default {
       return response.status(400).json({ erro: 'Empresa não existe' });
     }
 
-    const safrasByEmpresas = await Empresa.findAll({
+    const unidadesMedidaByEmpresas = await Empresa.findAll({
       where: {
         id_cliente_empresa: empresa.id_cliente_empresa,
       },
       include: {
-        association: 'safras',
+        association: 'unidades',
         where: {
           ...(data_atualizacao && {
             data_atualizacao: {
@@ -35,17 +35,17 @@ export default {
       },
     });
 
-    const safras: any[] = [];
+    const unidadesMedida: any[] = [];
 
-    safrasByEmpresas.forEach((safrasByEmpresa: any) => {
-      safras.push(...safrasByEmpresa.safras);
+    unidadesMedidaByEmpresas.forEach((unidadesMedidaByEmpresa: any) => {
+      unidadesMedida.push(...unidadesMedidaByEmpresa.unidades);
     });
 
-    return response.json(safras);
+    return response.json(unidadesMedida);
   },
 
   async store(request: Request, response: Response) {
-    const { nome, id_cultura } = request.body;
+    const { nome, sigla, permitir_fracionar } = request.body;
     const { 'id-empresa': id_empresa } = request.headers;
 
     if (!id_empresa) {
@@ -58,13 +58,14 @@ export default {
       return response.status(400).json({ erro: 'Empresa não existe' });
     }
 
-    const safra = await CicloProducao.create({
+    const unidadeMedida = await Unidade.create({
       id_empresa: Number(id_empresa),
-      id_cultura,
       nome,
+      sigla,
+      permitir_fracionar,
       data_atualizacao: formatDateToSQL(new Date()),
     });
 
-    return response.status(201).json(safra);
+    return response.status(201).json(unidadeMedida);
   },
 };
