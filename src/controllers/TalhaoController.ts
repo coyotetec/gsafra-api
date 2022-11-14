@@ -6,7 +6,7 @@ import { formatDateToSQL } from '../utils/formatDateToSQL';
 
 export default {
   async index(request: Request, response: Response) {
-    const { 'data-atualizacao': data_atualizacao } = request.query;
+    const { 'data-atualizacao': data_atualizacao, 'id-fazenda': id_fazenda } = request.query;
     const { 'id-empresa': id_empresa } = request.headers;
 
     if (!id_empresa) {
@@ -31,21 +31,37 @@ export default {
               [Op.gte]: formatDateToSQL(new Date(String(data_atualizacao))),
             },
           }),
+          ...(id_fazenda && {
+            id_fazenda,
+          }),
         },
       },
     });
 
-    const talhoes: any[] = [];
+    let talhoes: any[] = [];
 
     talhoesByEmpresas.forEach((talhoesByEmpresa: any) => {
       talhoes.push(...talhoesByEmpresa.talhoes);
+    });
+
+    talhoes = talhoes.map((talhao) => {
+      let coordenadas = null;
+
+      if (talhao.coordenadas) {
+        coordenadas = talhao.coordenadas.toString('utf8');
+      }
+
+      return {
+        ...talhao.dataValues,
+        coordenadas,
+      };
     });
 
     return response.json(talhoes);
   },
 
   async store(request: Request, response: Response) {
-    const { descricao } = request.body;
+    const { descricao, id_fazenda, hectares } = request.body;
     const { 'id-empresa': id_empresa } = request.headers;
 
     if (!id_empresa) {
@@ -60,7 +76,9 @@ export default {
 
     const talhao = await Talhao.create({
       id_empresa: Number(id_empresa),
+      id_fazenda,
       descricao,
+      hectares,
       data_atualizacao: formatDateToSQL(new Date()),
     });
 

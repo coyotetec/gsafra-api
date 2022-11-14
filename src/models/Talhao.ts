@@ -19,8 +19,11 @@ class Talhao extends Model<
   declare id: CreationOptional<number>;
   declare id_empresa: ForeignKey<Empresa['id']>;
   declare id_origem: CreationOptional<number>;
+  declare id_fazenda: CreationOptional<number>;
   declare descricao: string;
+  declare hectares: number;
   declare status: CreationOptional<number>;
+  declare coordenadas: CreationOptional<string>;
   declare data_atualizacao: CreationOptional<string>;
   declare excluido: CreationOptional<number>;
 
@@ -35,13 +38,23 @@ class Talhao extends Model<
       id_origem: {
         type: DataTypes.INTEGER.UNSIGNED,
       },
+      id_fazenda: {
+        type: DataTypes.INTEGER.UNSIGNED,
+      },
       descricao: {
         type: DataTypes.STRING(200),
+        allowNull: false,
+      },
+      hectares: {
+        type: DataTypes.DECIMAL(15, 3),
         allowNull: false,
       },
       status: {
         type: DataTypes.SMALLINT,
         defaultValue: 1,
+      },
+      coordenadas: {
+        type: DataTypes.BLOB,
       },
       data_atualizacao: {
         type: DataTypes.DATE,
