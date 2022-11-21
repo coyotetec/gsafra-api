@@ -65,10 +65,10 @@ class PlanAtv extends Model<
         type: DataTypes.STRING(60),
       },
       data_inicio: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
       },
       data_termino: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
       },
       situacao: {
         type: DataTypes.SMALLINT,
