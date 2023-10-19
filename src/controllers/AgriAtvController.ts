@@ -162,11 +162,11 @@ export default {
           id_empresa: Number(id_empresa),
           id_agri_atv: atividadeAgricola.id,
           id_produto_almoxarifado: insumo.id_produto_almoxarifado,
-          id_unidade: insumo.id_unidade,
           id_almoxarifado: insumo.id_almoxarifado,
           id_plan_atv_insumo: insumo.id_plan_atv_insumo,
           qtde: insumo.qtde,
           data_atualizacao,
+          ...(insumo.id_unidade && { id_unidade: insumo.id_unidade }),
         });
       }
 
