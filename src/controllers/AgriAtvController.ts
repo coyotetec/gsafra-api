@@ -128,7 +128,7 @@ export default {
     }
 
     for (const atividadeAgricolaBody of atividadesAgricolasBody) {
-      const atividadeAgricolaPayload: AtividadeAgricolaPayload = {
+      const atividadeAgricola = await AgriAtv.create({
         id_empresa: Number(id_empresa),
         id_usuario: atividadeAgricolaBody.id_usuario,
         id_dispositivo: Number(id_dispositivo),
@@ -147,9 +147,7 @@ export default {
         id_agri_tipo_aplicacao: atividadeAgricolaBody.id_agri_tipo_aplicacao,
         id_agri_aplicacao_fase: atividadeAgricolaBody.id_agri_aplicacao_fase,
         data_atualizacao,
-      };
-
-      const atividadeAgricola = await AgriAtv.create(atividadeAgricolaPayload);
+      });
       responseData.push({
         id: atividadeAgricolaBody.id,
         id_origem: atividadeAgricola.id,

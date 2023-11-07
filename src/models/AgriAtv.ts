@@ -44,6 +44,7 @@ class AgriAtv extends Model<
   declare id_agri_tipo_aplicacao: ForeignKey<AgriTipoAplicacao['id']>;
   declare id_agri_aplicacao_fase: ForeignKey<AgriAplicacaoFase['id']>;
   declare data_atualizacao: CreationOptional<string>;
+  declare status: CreationOptional<number>;
   declare excluido: CreationOptional<number>;
 
   static initialize(sequelize: Sequelize) {
@@ -84,6 +85,10 @@ class AgriAtv extends Model<
       },
       obs: {
         type: DataTypes.TEXT,
+      },
+      status: {
+        type: DataTypes.SMALLINT,
+        defaultValue: 0,
       },
       data_atualizacao: {
         type: DataTypes.DATE,
