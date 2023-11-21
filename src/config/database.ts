@@ -8,15 +8,15 @@ export const dbConfig: Options = {
   // password: 'root',
   // database: 'gsafra_mobile',
 
-  // host: 'br274.hostgator.com.br',
-  // username: 'coyot904_mobile',
-  // password: 'A@cessocli3nte8',
-  // database: 'coyot904_mobile',
-
   host: 'br274.hostgator.com.br',
   username: 'coyot904_mobile',
   password: 'A@cessocli3nte8',
-  database: 'coyot904_mobile_testes',
+  database: 'coyot904_mobile',
+
+  // host: 'br274.hostgator.com.br',
+  // username: 'coyot904_mobile',
+  // password: 'A@cessocli3nte8',
+  // database: 'coyot904_mobile_testes',
 
   timezone: '-03:00',
   define: {
