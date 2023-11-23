@@ -86,6 +86,10 @@ sequelize.sync({
   alter: {
     drop: false,
   },
-}).then(() => console.log('✅ Database synchronized successfully'));
+}).then(() => {
+  const host = process.env.DB_HOST || 'localhost';
+
+  console.log(`✅ Database synchronized successfully with host: ${host}`);
+});
 
 export default sequelize;
