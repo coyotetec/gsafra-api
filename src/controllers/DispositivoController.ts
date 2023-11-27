@@ -66,6 +66,7 @@ export default {
       id_empresa: Number(id_empresa),
       nome,
       informacoes,
+      ...(empresa.id_cliente_empresa === 1212 && { status: 1 }),
     });
 
     return response.status(201).json(dispositivo);
