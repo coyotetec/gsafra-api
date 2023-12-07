@@ -88,8 +88,9 @@ sequelize.sync({
   },
 }).then(() => {
   const host = process.env.DB_HOST || 'localhost';
+  const port = process.env.DB_PORT || '3306';
 
-  console.log(`✅ Database synchronized successfully with host: ${host}`);
+  console.log(`✅ Database synchronized successfully with host: ${host}:${port}`);
 });
 
 export default sequelize;
