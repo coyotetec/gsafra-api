@@ -31,6 +31,7 @@ export default {
   },
 
   async login(request: Request, response: Response) {
+    console.log('Iniciando controller login');
     const { id, senha } = request.body;
     console.log({ id, senha });
     console.log('Capturando os dados do body');

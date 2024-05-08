@@ -36,7 +36,10 @@ const routes = express.Router();
 
 routes.get('/empresas', EmpresaController.index);
 routes.post('/empresas', empresaValidation, EmpresaController.store);
-routes.post('/empresas/login', EmpresaController.login);
+routes.post('/empresas/login', (req, res, next) => {
+  console.log('Middleware login');
+  next();
+}, EmpresaController.login);
 
 routes.get('/dispositivos', DispositivoController.index);
 routes.get('/dispositivos/:id', DispositivoController.show);
