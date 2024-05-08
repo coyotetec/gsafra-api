@@ -32,26 +32,34 @@ export default {
 
   async login(request: Request, response: Response) {
     const { id, senha } = request.body;
+    console.log({ id, senha });
+    console.log('Capturando os dados do body');
+    console.log(`Buscando id ${id} no banco`);
     const empresa = await Empresa.findByPk(id);
 
     if (!empresa) {
+      console.log('Empresa não encontrada');
       return response.status(400).json({
         erro: 'Empresa não existe',
       });
     }
+    console.log(`Empresa ${empresa.nome} encontrada`);
 
     if (empresa.excluido === 1 || empresa.status === 0) {
+      console.log(`Empresa ${empresa.nome} inativa`);
       return response.status(400).json({
         erro: 'Empresa inativa',
       });
     }
 
     if (!(await comparePassword(senha, empresa.senha))) {
+      console.log('Senha não confere');
       return response.status(400).json({
         erro: 'Senha incorreta',
       });
     }
 
+    console.log('Login efetuado');
     return response.send();
   },
 };
